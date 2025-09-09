@@ -50,7 +50,11 @@ All colors MUST be HSL.
     /* Event platform specific colors */
     --gradient-primary: linear-gradient(135deg, hsl(267 57% 50%), hsl(267 57% 60%));
     --gradient-secondary: linear-gradient(135deg, hsl(45 93% 47%), hsl(45 93% 57%));
+    --gradient-hero: linear-gradient(135deg, hsl(267 57% 50%), hsl(220 70% 60%));
+    --gradient-card: linear-gradient(145deg, hsl(267 57% 50% / 0.05), hsl(220 70% 60% / 0.05));
     --shadow-elegant: 0 10px 30px -10px hsl(267 57% 50% / 0.3);
+    --shadow-soft: 0 4px 20px -4px hsl(267 57% 50% / 0.15);
+    --animation-bounce: bounce 2s infinite;
   }
 
   .dark {
@@ -94,7 +98,11 @@ All colors MUST be HSL.
     /* Event platform specific colors - dark mode */
     --gradient-primary: linear-gradient(135deg, hsl(267 57% 60%), hsl(267 57% 70%));
     --gradient-secondary: linear-gradient(135deg, hsl(45 93% 57%), hsl(45 93% 67%));
+    --gradient-hero: linear-gradient(135deg, hsl(267 57% 60%), hsl(220 70% 70%));
+    --gradient-card: linear-gradient(145deg, hsl(267 57% 60% / 0.1), hsl(220 70% 70% / 0.1));
     --shadow-elegant: 0 10px 30px -10px hsl(267 57% 60% / 0.4);
+    --shadow-soft: 0 4px 20px -4px hsl(267 57% 60% / 0.25);
+    --animation-bounce: bounce 2s infinite;
   }
 }
 

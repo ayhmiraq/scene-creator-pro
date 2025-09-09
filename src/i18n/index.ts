@@ -73,6 +73,26 @@ const resources = {
       unlockPremiumFeatures: 'فتح الميزات المميزة',
       noEventsYet: 'لا توجد فعاليات حتى الآن',
       beFirstToCreate: 'كن أول من ينشئ فعالية!',
+      
+      // Categories
+      upcomingEvents: 'الفعاليات القادمة',
+      premiumEvents: 'الفعاليات المميزة',
+      freeEvents: 'الفعاليات المجانية',
+      adminEvents: 'فعاليات الإدارة',
+      
+      // Stats
+      totalEvents: 'إجمالي الفعاليات',
+      activeUsers: 'المستخدمون النشطون',
+      successfulEvents: 'الفعاليات المنجزة',
+      
+      // Profile
+      memberSince: 'عضو منذ',
+      editProfile: 'تعديل الملف الشخصي',
+      
+      // Membership types
+      free: 'مجاني',
+      premium: 'مميز',
+      admin: 'مدير',
     }
   },
   en: {
@@ -145,6 +165,26 @@ const resources = {
       unlockPremiumFeatures: 'Unlock premium features',
       noEventsYet: 'No events yet',
       beFirstToCreate: 'Be the first to create an event!',
+      
+      // Categories
+      upcomingEvents: 'Upcoming Events',
+      premiumEvents: 'Premium Events',
+      freeEvents: 'Free Events',
+      adminEvents: 'Admin Events',
+      
+      // Stats
+      totalEvents: 'Total Events',
+      activeUsers: 'Active Users',
+      successfulEvents: 'Successful Events',
+      
+      // Profile
+      memberSince: 'Member since',
+      editProfile: 'Edit Profile',
+      
+      // Membership types
+      free: 'Free',
+      premium: 'Premium',
+      admin: 'Admin',
     }
   },
   fr: {
