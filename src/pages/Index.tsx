@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header';
 import { EventCard } from '@/components/events/EventCard';
 import { UserProfile } from '@/components/profile/UserProfile';
 import { StatsSection } from '@/components/sections/StatsSection';
+import { CategorySection } from '@/components/sections/CategorySection';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -133,6 +134,9 @@ const Index = () => {
 
         {/* Stats Section */}
         <StatsSection />
+
+        {/* Category Section */}
+        <CategorySection />
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Profile Section - Only show when user is logged in */}

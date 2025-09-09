@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { 
@@ -96,19 +97,30 @@ export const Header: React.FC = () => {
             <LanguageSwitcher />
             
             {user && profile ? (
-              <div className="flex items-center gap-3">
-                {getMembershipBadge(profile.membership_type)}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">{profile.username}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => signOut()}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <LogOut className="h-4 w-4" />
-                  </Button>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-8 w-8 ring-2 ring-primary/20">
+                    <AvatarImage src={profile.avatar_url || undefined} />
+                    <AvatarFallback className="bg-gradient-to-br from-primary to-primary/60 text-primary-foreground text-sm font-bold">
+                      {profile.full_name?.charAt(0) || profile.username.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-foreground">
+                      {profile.full_name || profile.username}
+                    </span>
+                    {getMembershipBadge(profile.membership_type)}
+                  </div>
                 </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => signOut()}
+                  className="hover:bg-destructive hover:text-destructive-foreground"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  {t('logout')}
+                </Button>
               </div>
             ) : (
               <div className="flex items-center gap-2">
