@@ -271,6 +271,39 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          created_at: string
+          default_language: string
+          id: string
+          logo_url: string | null
+          meta_keywords: string | null
+          site_description: string
+          site_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          default_language?: string
+          id?: string
+          logo_url?: string | null
+          meta_keywords?: string | null
+          site_description?: string
+          site_name?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          default_language?: string
+          id?: string
+          logo_url?: string | null
+          meta_keywords?: string | null
+          site_description?: string
+          site_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

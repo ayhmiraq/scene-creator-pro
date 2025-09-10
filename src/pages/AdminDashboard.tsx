@@ -6,8 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 import { 
   Users, 
   Calendar, 
@@ -17,7 +22,9 @@ import {
   Crown,
   Trash2,
   Edit,
-  Eye
+  Eye,
+  Upload,
+  Image
 } from 'lucide-react';
 
 interface User {
@@ -40,6 +47,15 @@ interface Event {
   created_at: string;
 }
 
+interface SiteSettings {
+  id: string;
+  site_name: string;
+  site_description: string;
+  meta_keywords: string | null;
+  logo_url: string | null;
+  default_language: string;
+}
+
 const AdminDashboard = () => {
   const { t } = useTranslation();
   const { profile, loading } = useAuth();
@@ -51,10 +67,20 @@ const AdminDashboard = () => {
     activeEvents: 0,
     premiumUsers: 0
   });
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+  const [settingsForm, setSettingsForm] = useState({
+    site_name: '',
+    site_description: '',
+    meta_keywords: '',
+    default_language: 'ar'
+  });
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (profile?.membership_type === 'admin') {
       fetchData();
+      fetchSiteSettings();
     }
   }, [profile]);
 
@@ -108,6 +134,91 @@ const AdminDashboard = () => {
       }
     } catch (error) {
       console.error('Error fetching admin data:', error);
+    }
+  };
+
+  const fetchSiteSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*')
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        setSiteSettings(data);
+        setSettingsForm({
+          site_name: data.site_name,
+          site_description: data.site_description,
+          meta_keywords: data.meta_keywords || '',
+          default_language: data.default_language
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching site settings:', error);
+    }
+  };
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setLogoFile(file);
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setLogoPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const uploadLogo = async (): Promise<string | null> => {
+    if (!logoFile) return null;
+
+    const fileName = `logo-${Date.now()}.${logoFile.name.split('.').pop()}`;
+    
+    const { data, error } = await supabase.storage
+      .from('logos')
+      .upload(fileName, logoFile);
+
+    if (error) throw error;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('logos')
+      .getPublicUrl(fileName);
+
+    return publicUrl;
+  };
+
+  const handleSaveSettings = async () => {
+    try {
+      let logoUrl = siteSettings?.logo_url;
+      
+      if (logoFile) {
+        logoUrl = await uploadLogo();
+      }
+
+      const updates = {
+        ...settingsForm,
+        logo_url: logoUrl
+      };
+
+      const { error } = await supabase
+        .from('site_settings')
+        .update(updates)
+        .eq('id', siteSettings?.id);
+
+      if (error) throw error;
+
+      toast.success(t('settingsUpdated'));
+      fetchSiteSettings();
+      setLogoFile(null);
+      setLogoPreview(null);
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      toast.error(t('settingsError'));
     }
   };
 
@@ -282,10 +393,112 @@ const AdminDashboard = () => {
           <TabsContent value="settings">
             <Card>
               <CardHeader>
-                <CardTitle>إعدادات الموقع</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="h-5 w-5" />
+                  {t('siteSettings')}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">إعدادات الموقع قادمة قريباً...</p>
+                <div className="space-y-6">
+                  {/* Site Name */}
+                  <div className="space-y-2">
+                    <Label htmlFor="siteName">{t('siteName')}</Label>
+                    <Input
+                      id="siteName"
+                      value={settingsForm.site_name}
+                      onChange={(e) => setSettingsForm(prev => ({ ...prev, site_name: e.target.value }))}
+                      placeholder={t('siteName')}
+                    />
+                  </div>
+
+                  {/* Site Description */}
+                  <div className="space-y-2">
+                    <Label htmlFor="siteDescription">{t('siteDescription')}</Label>
+                    <Textarea
+                      id="siteDescription"
+                      value={settingsForm.site_description}
+                      onChange={(e) => setSettingsForm(prev => ({ ...prev, site_description: e.target.value }))}
+                      placeholder={t('siteDescription')}
+                      rows={3}
+                    />
+                  </div>
+
+                  {/* Meta Keywords */}
+                  <div className="space-y-2">
+                    <Label htmlFor="metaKeywords">{t('metaKeywords')}</Label>
+                    <Input
+                      id="metaKeywords"
+                      value={settingsForm.meta_keywords}
+                      onChange={(e) => setSettingsForm(prev => ({ ...prev, meta_keywords: e.target.value }))}
+                      placeholder="فعاليات، أحداث، عراق، منصة"
+                    />
+                  </div>
+
+                  {/* Default Language */}
+                  <div className="space-y-2">
+                    <Label>{t('defaultLanguage')}</Label>
+                    <Select 
+                      value={settingsForm.default_language} 
+                      onValueChange={(value) => setSettingsForm(prev => ({ ...prev, default_language: value }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={t('selectLanguage')} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ar">العربية</SelectItem>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="fr">Français</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Logo Upload */}
+                  <div className="space-y-4">
+                    <Label>{t('logoUpload')}</Label>
+                    
+                    {/* Current Logo */}
+                    <div className="flex items-center gap-4">
+                      <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                        {logoPreview || siteSettings?.logo_url ? (
+                          <img 
+                            src={logoPreview || siteSettings?.logo_url || ''} 
+                            alt="Logo" 
+                            className="w-full h-full object-contain rounded-lg"
+                          />
+                        ) : (
+                          <div className="text-center">
+                            <Image className="h-8 w-8 mx-auto text-gray-400" />
+                            <p className="text-xs text-gray-400 mt-1">{t('noLogo')}</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="logoUpload" className="cursor-pointer">
+                          <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                            <Upload className="h-4 w-4" />
+                            {t('uploadLogo')}
+                          </div>
+                        </Label>
+                        <Input
+                          id="logoUpload"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleLogoUpload}
+                          className="hidden"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">PNG, JPG حتى 5MB</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Save Button */}
+                  <div className="flex justify-end pt-4">
+                    <Button onClick={handleSaveSettings} className="px-8">
+                      {t('save')}
+                    </Button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

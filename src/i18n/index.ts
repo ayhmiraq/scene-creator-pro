@@ -114,6 +114,19 @@ const resources = {
       // Navigation
       activeEventsPage: 'الفعاليات النشطة',
       myEventsPage: 'فعالياتي',
+      
+      // Site Settings Details
+      siteName: 'اسم الموقع',
+      siteDescription: 'وصف الموقع',
+      metaKeywords: 'الكلمات المفتاحية',
+      logoUpload: 'رفع الشعار',
+      defaultLanguage: 'اللغة الافتراضية',
+      selectLanguage: 'اختر اللغة',
+      uploadLogo: 'رفع شعار جديد',
+      currentLogo: 'الشعار الحالي',
+      noLogo: 'لم يتم رفع شعار',
+      settingsUpdated: 'تم تحديث الإعدادات بنجاح',
+      settingsError: 'حدث خطأ في تحديث الإعدادات',
     }
   },
   en: {
@@ -206,6 +219,19 @@ const resources = {
       free: 'Free',
       premium: 'Premium',
       admin: 'Admin',
+      
+      // Site Settings Details
+      siteName: 'Site Name',
+      siteDescription: 'Site Description',
+      metaKeywords: 'Meta Keywords',
+      logoUpload: 'Logo Upload',
+      defaultLanguage: 'Default Language',
+      selectLanguage: 'Select Language',
+      uploadLogo: 'Upload New Logo',
+      currentLogo: 'Current Logo',
+      noLogo: 'No logo uploaded',
+      settingsUpdated: 'Settings updated successfully',
+      settingsError: 'Error updating settings',
     }
   },
   fr: {
@@ -278,6 +304,19 @@ const resources = {
       unlockPremiumFeatures: 'Débloquer les fonctionnalités premium',
       noEventsYet: 'Aucun événement pour le moment',
       beFirstToCreate: 'Soyez le premier à créer un événement !',
+      
+      // Site Settings Details
+      siteName: 'Nom du Site',
+      siteDescription: 'Description du Site',
+      metaKeywords: 'Mots-clés Meta',
+      logoUpload: 'Téléchargement du Logo',
+      defaultLanguage: 'Langue par Défaut',
+      selectLanguage: 'Sélectionner la Langue',
+      uploadLogo: 'Télécharger un Nouveau Logo',
+      currentLogo: 'Logo Actuel',
+      noLogo: 'Aucun logo téléchargé',
+      settingsUpdated: 'Paramètres mis à jour avec succès',
+      settingsError: 'Erreur lors de la mise à jour des paramètres',
     }
   }
 };
