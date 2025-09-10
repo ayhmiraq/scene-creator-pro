@@ -50,7 +50,7 @@ const resources = {
       delete: 'حذف',
       loading: 'جاري التحميل...',
       welcomeBack: 'مرحباً بعودتك',
-      welcome: 'مرحباً بك في منصة الفعاليات',
+      welcome: 'مرحباً بك في كامب',
       email: 'البريد الإلكتروني',
       password: 'كلمة المرور',
       confirmPassword: 'تأكيد كلمة المرور',
@@ -69,7 +69,7 @@ const resources = {
       createdBy: 'إنشاء بواسطة',
       passwordsMismatch: 'كلمات المرور غير متطابقة',
       accountCreated: 'تم إنشاء الحساب بنجاح',
-      discoverEvents: 'اكتشف أحدث الفعاليات والأحداث المثيرة',
+      discoverEvents: 'أول منصة عراقية للماركة في الفعاليات والأحداث',
       unlockPremiumFeatures: 'فتح الميزات المميزة',
       noEventsYet: 'لا توجد فعاليات حتى الآن',
       beFirstToCreate: 'كن أول من ينشئ فعالية!',
@@ -93,6 +93,27 @@ const resources = {
       free: 'مجاني',
       premium: 'مميز',
       admin: 'مدير',
+      
+      // Dashboard & Management
+      dashboard: 'لوحة التحكم',
+      adminPanel: 'لوحة الإدارة',
+      userManagement: 'إدارة المستخدمين',
+      eventManagement: 'إدارة الفعاليات',
+      siteSettings: 'إعدادات الموقع',
+      statistics: 'الإحصائيات',
+      
+      // Event Management
+      createNewEvent: 'إنشاء فعالية جديدة',
+      eventCreated: 'تم إنشاء الفعالية بنجاح',
+      
+      // Messaging
+      conversations: 'المحادثات',
+      newMessage: 'رسالة جديدة',
+      startConversation: 'بدء محادثة',
+      
+      // Navigation
+      activeEventsPage: 'الفعاليات النشطة',
+      myEventsPage: 'فعالياتي',
     }
   },
   en: {

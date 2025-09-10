@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Header } from '@/components/layout/Header';
 import { EventCard } from '@/components/events/EventCard';
+import { CreateEventDialog } from '@/components/events/CreateEventDialog';
 import { UserProfile } from '@/components/profile/UserProfile';
 import { StatsSection } from '@/components/sections/StatsSection';
 import { CategorySection } from '@/components/sections/CategorySection';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Plus, Crown, Sparkles, Calendar, Filter } from 'lucide-react';
+import heroBg from '@/assets/hero-bg.jpg';
+import { Crown, Sparkles, Calendar, Filter } from 'lucide-react';
 
 interface EventWithDetails {
   id: string;
@@ -103,13 +104,17 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-8">
         {/* Hero Section */}
-        <div className="text-center mb-12 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 rounded-3xl -z-10"></div>
-          <div className="py-12 px-6">
-            <h1 className="text-5xl font-black mb-6 bg-gradient-to-r from-primary via-primary to-blue-600 bg-clip-text text-transparent leading-tight">
+        <div className="text-center mb-12 relative overflow-hidden rounded-3xl">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${heroBg})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-blue-600/70" />
+          <div className="relative py-20 px-6 text-white">
+            <h1 className="text-6xl font-black mb-6 leading-tight drop-shadow-lg">
               {t('welcome')}
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-2xl mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow-md font-medium">
               {t('discoverEvents')}
             </p>
             
@@ -153,12 +158,7 @@ const Index = () => {
                 <Calendar className="h-6 w-6 text-primary" />
                 <h2 className="text-3xl font-bold text-foreground">{t('activeEvents')}</h2>
               </div>
-              {user && (
-                <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg">
-                  <Plus className="h-4 w-4 mr-2" />
-                  {t('createEvent')}
-                </Button>
-              )}
+              {user && <CreateEventDialog onEventCreated={() => window.location.reload()} />}
             </div>
             
             {/* Event Tabs */}
@@ -227,12 +227,7 @@ const EventGrid: React.FC<{ events: EventWithDetails[]; loading: boolean }> = ({
         </div>
         <h3 className="text-2xl font-bold text-foreground mb-3">{t('noEventsYet')}</h3>
         <p className="text-muted-foreground mb-6 max-w-sm mx-auto">{t('beFirstToCreate')}</p>
-        {user && (
-          <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-            <Plus className="h-4 w-4 mr-2" />
-            {t('createEvent')}
-          </Button>
-        )}
+        {user && <CreateEventDialog onEventCreated={() => window.location.reload()} />}
       </div>
     );
   }

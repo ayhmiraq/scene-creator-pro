@@ -6,13 +6,15 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import logo from '@/assets/logo.png';
 import { 
   Calendar, 
   MessageSquare, 
   User, 
   LogOut,
   Crown,
-  Shield
+  Shield,
+  Settings
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -60,8 +62,9 @@ export const Header: React.FC = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-xl font-bold text-primary">
-              ✨ {t('events')}
+            <Link to="/" className="flex items-center gap-3">
+              <img src={logo} alt="كامب" className="h-10 w-10" />
+              <span className="text-xl font-bold text-primary">كامب</span>
             </Link>
             
             {user && (
@@ -80,15 +83,24 @@ export const Header: React.FC = () => {
                   <User className="h-4 w-4" />
                   {t('myEvents')}
                 </Link>
-                {profile?.membership_type === 'premium' || profile?.membership_type === 'admin' ? (
-                  <Link
-                    to="/messages"
-                    className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <MessageSquare className="h-4 w-4" />
-                    {t('messages')}
-                  </Link>
-                ) : null}
+                 {profile?.membership_type === 'premium' || profile?.membership_type === 'admin' ? (
+                   <Link
+                     to="/messages"
+                     className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                   >
+                     <MessageSquare className="h-4 w-4" />
+                     {t('messages')}
+                   </Link>
+                 ) : null}
+                 {profile?.membership_type === 'admin' && (
+                   <Link
+                     to="/admin"
+                     className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                   >
+                     <Settings className="h-4 w-4" />
+                     {t('dashboard')}
+                   </Link>
+                 )}
               </nav>
             )}
           </div>
